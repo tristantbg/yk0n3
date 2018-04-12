@@ -1,0 +1,10 @@
+title: Projects
+files: false
+pages:
+  template: project
+deletable: false
+fields:
+  prevnext: prevnext
+  title:
+    label: Title
+    type:  text

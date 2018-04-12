@@ -1,0 +1,40 @@
+title: Page Sliders
+pages: false
+files: true
+fields:
+  tabs0:
+    label: Main options
+    type: tabs
+  title:
+    label: Title
+    type:  text
+  text:
+    label: Main text (for SEO)
+    type:  textarea
+  tabs1:
+    label: Slider 1
+    type: tabs
+  medias1: 
+    label: Images Slider 1
+    type: images
+  text1:
+    label: Text
+    type:  textarea
+  tabs2:
+    label: Slider 2
+    type: tabs
+  medias2: 
+    label: Images Slider 2
+    type: images
+  text2:
+    label: Text
+    type:  textarea
+  tabs3:
+    label: Slider 3
+    type: tabs
+  medias3: 
+    label: Images Slider 3
+    type: images
+  text3:
+    label: Text
+    type:  textarea

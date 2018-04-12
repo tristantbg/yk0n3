@@ -1,0 +1,30 @@
+title: Offices
+files: false
+deletable: false
+fields:
+  prevnext: prevnext
+  title:
+    label: Title
+    type:  text
+    width: 3/4
+  featured:
+    label: Map image
+    type: image
+    width: 1/4
+  text:
+    label: Main text (for SEO)
+    type:  textarea
+  offices:
+    label: Offices
+    type: structure
+    style: table
+    fields:
+      title:
+        label: Title
+        type: text
+      text:
+        label: Text
+        type: textarea
+      link:
+        label: Map link
+        type: url

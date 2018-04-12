@@ -1,0 +1,43 @@
+title: Manifesto
+pages: false
+files: false
+fields:
+  tabs1:
+    label: Videos
+    type: tabs
+  pagevideos:
+    label: Videos
+    type: structure
+    style: table
+    fields:
+      thumb:
+        label: Thumbnail
+        type: image
+      stream:
+        label: Video stream link (.m3u8)
+        type: url
+      mp4:
+        label: Video mp4 link
+        type: url
+      webm:
+        label: Video webm link
+        type: url
+      file:
+        label: Video file
+        type: select
+        options: videos
+  tabs2:
+    label: Overtitle
+    type: tabs
+  titre1:
+    label: Title 1
+    type: text
+  titre2:
+    label: Title 2
+    type: text
+  titre3:
+    label: Title 3
+    type: text
+  titre4:
+    label: Title 4
+    type: text

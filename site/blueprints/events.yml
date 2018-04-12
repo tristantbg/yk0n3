@@ -1,0 +1,15 @@
+title: Events
+files: false
+pages:
+  template: event
+  sort: date desc
+  num: date
+deletable: false
+fields:
+  prevnext: prevnext
+  title:
+    label: Title
+    type:  text
+  text:
+    label: Main text (for SEO)
+    type:  textarea

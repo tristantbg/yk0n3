@@ -1,0 +1,25 @@
+#menu
+	width: 100vh;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	background: white;
+	z-index: 500;
+	transform: rotate(90deg) translateY(100%);
+	transform-origin: bottom right;
+	padding ($padding+1.5)
+	padding-left ($padding*4)
+	ul
+		text-transform uppercase
+		display: flex;
+		justify-content space-between
+		align-items center
+		li
+			margin 0 1em
+			&:first-child
+				margin-left 0
+			&:last-child
+				margin-right 0
+			a.active
+				bold()
+				border-bottom 1px solid

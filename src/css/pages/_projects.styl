@@ -1,0 +1,38 @@
+#projects
+	.project-item
+		background alpha($secondary, 0.1)
+		width 'calc((100% - %s) / 3)' % ($padding*2)
+		display block
+		margin-bottom $padding
+		position relative
+		color $primary
+		letterspacing()
+		+below($md)
+			width 100%
+	.project-item--infos
+			position absolute
+			top 0
+			left 0
+			width 100%
+			height 100%
+			background alpha($secondary, 0.5)
+			opacity 0
+			transition opacity 300ms ease
+			z-index 2
+			&:hover
+				opacity 1
+	.project-item--title
+		title()
+		margin-bottom .2em
+	.project-item--header
+		position absolute
+		top 0
+		left 0
+		width 100%
+		padding $padding
+	.project-item--footer
+		position absolute
+		bottom 0
+		left 0
+		width 100%
+		padding $padding

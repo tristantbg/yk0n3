@@ -9,7 +9,8 @@
     "start": "webpack --config ./webpack.config.js --watch --watch-poll -d --progress"
   },
   "browserslist": [
-    "last 2 versions", "ie >= 11"
+    "last 2 versions",
+    "ie >= 11"
   ],
   "engines": {
     "node": ">=8.0.0"
@@ -28,14 +29,16 @@
     "grunt-php": "*",
     "jeet": "*",
     "modernizr-webpack-plugin": "^1.0.6",
+    "normalize.css": "^7.0.0",
     "rupture": "^0.7.1",
     "stylus": "^0.54.5",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^4.1.1",
-    "normalize.css": "^7.0.0",
     "webpack-cli": "^2.0.11"
   },
   "dependencies": {
+    "flickity": "^2.1.1",
+    "lazysizes": "^4.0.2",
     "viewport-units-buggyfill": "^0.6.2"
   }
 }

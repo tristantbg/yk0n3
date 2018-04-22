@@ -3,7 +3,6 @@ Thumbs.db
 yarn.lock
 yarn-error.log
 /content/*
-/lib
 /assets/fonts/*
 /assets/css/app.min.css
 /assets/css/build/*

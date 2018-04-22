@@ -1,0 +1,55 @@
+$transition = 200ms
+
+#burger
+  backface-visibility hidden
+  -webkit-backface-visibility hidden
+  width $padding
+  height ($padding+0.7)
+  margin $padding ($padding+1)
+  position fixed
+  right 0
+  top 0
+  transform rotate(0deg)
+  transition all $transition
+  z-index 600
+  cursor pointer
+  &::after
+    content ''
+    position absolute
+    width 100%
+    height 100%
+    padding $padding
+    top (-1 * $padding)
+    left (-1 * $padding)
+  span
+    backface-visibility hidden
+    -webkit-backface-visibility hidden
+    display block
+    position absolute
+    height 1px
+    width 100%
+    background $secondary
+    opacity 1
+    left 0
+    transform rotate(0deg)
+    transition all $transition ease
+  span:nth-child(1)
+    top 0px
+    transition-delay $transition
+  span:nth-child(2), span:nth-child(3)
+    transition-delay 0s
+    top (($padding+0.7) / 2)
+  span:nth-child(4)
+    transition-delay $transition
+    bottom 0
+  &.opened
+    span:nth-child(1), span:nth-child(4)
+      transition-delay 0s
+      opacity 0
+      top (($padding+0.7) / 2)
+    span:nth-child(2)
+      transition-delay $transition
+      transform rotate(45deg)
+    span:nth-child(3)
+      transition-delay($transition)
+      transform rotate(-45deg)

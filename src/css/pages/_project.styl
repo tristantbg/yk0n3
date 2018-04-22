@@ -1,0 +1,13 @@
+[page-type=project], [page-type=page-slider]
+	h1, h2, h3
+		title()
+	.slider
+		span(6/10)
+		background alpha($secondary, 0.05)
+	#page-description
+		span(4/10)
+		height 100vh
+		padding ($padding*4) ($padding+1.5) ($padding+1.5)
+		overflow-y scroll
+		&::-webkit-scrollbar
+			display none

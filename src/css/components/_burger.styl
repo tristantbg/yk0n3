@@ -5,12 +5,11 @@ $transition = 200ms
   -webkit-backface-visibility hidden
   width $padding
   height ($padding+0.7)
-  margin $padding ($padding+1)
+  margin ($padding+2.5) ($padding+1)
   position fixed
   right 0
   top 0
   transform rotate(0deg)
-  transition all $transition
   z-index 600
   cursor pointer
   &::after
@@ -32,7 +31,7 @@ $transition = 200ms
     opacity 1
     left 0
     transform rotate(0deg)
-    transition all $transition ease
+    transition opacity $transition ease, transform $transition ease, top $transition ease
   span:nth-child(1)
     top 0px
     transition-delay $transition
@@ -51,5 +50,5 @@ $transition = 200ms
       transition-delay $transition
       transform rotate(45deg)
     span:nth-child(3)
-      transition-delay($transition)
+      transition-delay $transition
       transform rotate(-45deg)

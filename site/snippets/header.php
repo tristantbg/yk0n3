@@ -56,7 +56,7 @@
 	<link rel="shortcut icon" href="<?= url('assets/images/favicon.ico') ?>">
 	<link rel="icon" href="<?= url('assets/images/favicon.ico') ?>" type="image/x-icon">
 
-	<?php 
+	<?php
 	echo css('assets/css/build/build.min.css');
 	echo js('assets/js/build/vendor/modernizr-bundle.js');
 	?>
@@ -69,7 +69,7 @@
 
 </head>
 
-<body page-type="<?= $page->intendedTemplate() ?>">
+<body page-type="<?= $page->intendedTemplate() ?>" logo-color="dark">
 
 <div id="outdated">
 	<div class="inner">
@@ -78,9 +78,20 @@
 	</div>
 </div>
 
-<div id="loader"></div>
+<div id="loader">
+  <div class="spinner">
+    <svg class="circular" viewBox="25 25 50 50">
+    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+    </svg>
+    <svg class="circular" viewBox="25 25 50 50">
+    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+    </svg>
+  </div>
+</div>
 
 <div id="main">
+
+  <div class="pjax">
 
 	<!-- <header>
 		<div id="site-title">
@@ -93,3 +104,5 @@
 	<div id="container">
 
 		<div id="page-content" page-type="<?= $page->intendedTemplate() ?>">
+
+        <div class="inner">

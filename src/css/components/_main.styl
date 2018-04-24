@@ -8,22 +8,24 @@ body,html
 
 html
 	font-size 1.68vh
+	+above($xl)
+		font-size 1.3vh
 
 body
 	font-family 'CG', Helvetica Neue, Arial, sans-serif
 	font-size 1rem
 	text-rendering optimizeLegibility
 	font-smoothing()
-	
+
 letterspacing()
 	letter-spacing 0.01em
-	
+
 bold()
 	font-family 'CGB', Helvetica Neue, Arial, sans-serif
 
 .bold, strong
 	bold()
-	
+
 title()
 	margin-bottom 1em
 	display inline-block
@@ -50,7 +52,7 @@ p
 
 ::selection
 	background $secondary
-	
+
 ::-moz-selection
 	background $secondary
 
@@ -76,23 +78,31 @@ a, a:hover, a:visited, a:focus
 	text-decoration none
 	cursor pointer
 
-.lazy, .plyr
+.lazy
 	transition opacity 250ms ease
 	opacity 0
 
-.lazy.lazyloaded, .lazy.flickity-lazyloaded, .plyr.plyr--ready
+.lazy.lazyloaded, .lazy.flickity-lazyloaded
 	opacity 1
 
 #main
 	span(1)
 
-#container
+#container, #page-content
 	span(1)
+	position relative
 
 #page-content
 	padding-right 8rem
+	min-height 100vh
+	.inner
+		width 100%
+		height 100%
+		position relative
+		min-height 100vh
 
 body.is-loading
+	cursor wait
 	#page-content
 		opacity 0
 		transition opacity 100ms ease

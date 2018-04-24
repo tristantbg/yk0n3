@@ -13,7 +13,7 @@
           $src = $image->width(1000)->url();
           for ($i = 1000; $i <= 3000; $i += 500) $srcset .= $image->width($i)->url() . ' ' . $i . 'w,';
           ?>
-          <img class="media lazy<?php e($key == 0, " lazyload lazypreload") ?>" 
+          <img class="media lazy<?php e($key < 3, " lazyload lazypreload") ?>"
           src="<?= $image->width(100)->dataUri() ?>"
           data-flickity-lazyload="<?= $src ?>"
           data-srcset="<?= $srcset ?>"

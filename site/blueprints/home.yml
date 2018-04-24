@@ -13,6 +13,13 @@ fields:
       thumb:
         label: Thumbnail
         type: image
+      color:
+        label: Logo
+        type: radio
+        options:
+          dark: Dark
+          light: Light
+        default: dark
       stream:
         label: Video stream link (.m3u8)
         type: url
@@ -29,15 +36,15 @@ fields:
   tabs2:
     label: Overtitle
     type: tabs
-  titre1:
+  title1:
     label: Title 1
     type: text
-  titre2:
+  title2:
     label: Title 2
     type: text
-  titre3:
+  title3:
     label: Title 3
     type: text
-  titre4:
+  title4:
     label: Title 4
     type: text

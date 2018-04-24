@@ -46,20 +46,13 @@
 			right 0
 		&[disabled]
 			display none
-	#mouse-nav
-		align()
-		position fixed
-		top 0
-		left 0
-		color $secondary
-		z-index 300
-		white-space nowrap
-		cursor none
-		pointer-events none
-		display none
-		&::before
-			align()
-			pointer-events none
+		&:focus
+			outline none
+			box-shadow none
+		&:active
+			opacity 1
+	.flickity-button-icon
+		fill $primary
 	&[data-media="video"]:not(.nav-hover)
 		#mouse-nav
 			&::before

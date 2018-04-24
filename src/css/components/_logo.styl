@@ -1,0 +1,29 @@
+#logo
+  display none
+  width 13rem
+  position fixed
+  top ($padding+1.5)
+  right ($padding*5+1)
+  z-index 300
+  svg
+    display block
+    width 100%
+    path
+      transition fill 200ms ease
+      fill $secondary
+
+[logo-color=dark]
+  #logo
+    svg
+      path
+        fill $secondary
+
+[logo-color=light]
+  #logo
+    svg
+      path
+        fill $primary
+
+[page-type=home]
+  #logo
+    display block

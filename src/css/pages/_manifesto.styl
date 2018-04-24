@@ -1,0 +1,34 @@
+#manifesto
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  &::after
+    transition opacity 300ms ease
+    opacity 0
+    content ''
+    position absolute
+    width 100%
+    height 100%
+    top 0
+    left 0
+    background linear-gradient(to right, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0.003) 7.7%, hsla(0, 0%, 0%, 0.013) 14.8%, hsla(0, 0%, 0%, 0.027) 21%, hsla(0, 0%, 0%, 0.044) 26.5%, hsla(0, 0%, 0%, 0.062) 31.4%, hsla(0, 0%, 0%, 0.081) 35.9%, hsla(0, 0%, 0%, 0.1) 40.1%, hsla(0, 0%, 0%, 0.12) 44.2%, hsla(0, 0%, 0%, 0.14) 48.1%, hsla(0, 0%, 0%, 0.16) 52%, hsla(0, 0%, 0%, 0.181) 56%, hsla(0, 0%, 0%, 0.201) 60.1%, hsla(0, 0%, 0%, 0.22) 64.3%, hsla(0, 0%, 0%, 0.239) 68.8%, hsla(0, 0%, 0%, 0.257) 73.7%, hsla(0, 0%, 0%, 0.273) 79.2%, hsla(0, 0%, 0%, 0.287) 85.4%, hsla(0, 0%, 0%, 0.297) 92.5%, hsla(0, 0%, 0%, 0.3) 100%);
+    z-index 10
+  &.popup::after
+    opacity 1
+  video
+    width 100%
+    height 100%
+    object-fit cover
+    &.contain
+      object-fit contain
+  .plyr, .plyr__video-wrapper
+    height 100%
+    overflow hidden
+  .plyr:not(:first-child)
+    display none
+
+[page-type=manifesto]
+  #page-description
+    transform translateX(100%)

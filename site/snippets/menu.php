@@ -8,6 +8,10 @@ if($items->count()):
 
 ?>
 
+<div id="logo">
+  <?php snippet('logo') ?>
+</div>
+
 <div id="burger">
 	<span></span>
 	<span></span>
@@ -22,7 +26,13 @@ if($items->count()):
     		<li><a<?php e($item->isOpen(), ' class="active"') ?> href="<?= $item->url() ?>"><?= $item->title()->html() ?></a></li>
     	<?php endif ?>
     <?php endforeach ?>
-    <li>FR/<span class="bold">EN</span></li>
+    <div id="languages">
+      <?php foreach($site->languages() as $language): ?>
+          <a<?php e($site->language() == $language, ' class="bold"') ?> href="<?= $page->url($language->code()) ?>">
+            <?= html($language->code()) ?>
+          </a>
+      <?php endforeach ?>
+    </div>
   </ul>
 </nav>
 <?php endif ?>

@@ -1,0 +1,20 @@
+[page-type=manifesto],
+[page-type=project],
+[page-type=page-slider]
+  h1, h2, h3
+    title()
+  h3
+    border-bottom none
+  #page-description
+    span(4/10)
+    height 100vh
+    padding ($padding*4) ($padding+1.5) ($padding+1.5)
+    overflow-y scroll
+    background $primary
+    &::-webkit-scrollbar
+      display none
+    &.fixed
+      position absolute
+      top 0
+      right 0
+      z-index 11

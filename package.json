@@ -37,8 +37,12 @@
     "webpack-cli": "^2.0.11"
   },
   "dependencies": {
+    "barba.js": "^1.0.0",
     "flickity": "^2.1.1",
+    "gsap": "^1.20.4",
+    "hls.js": "^0.9.1",
     "lazysizes": "^4.0.2",
+    "plyr": "^3.2.1",
     "viewport-units-buggyfill": "^0.6.2"
   }
 }

@@ -1,17 +1,17 @@
-// @keyframes color {
-//     100%, 0% {
-//         stroke: #40382e
-//     }
-//     40% {
-//         stroke: #0f0f0f
-//     }
-//     66% {
-//         stroke: #40382e
-//     }
-//     80%, 90% {
-//         stroke: #0f0f0f
-//     }
-// }
+@keyframes color {
+    100%, 0% {
+        stroke: $secondary
+    }
+    50% {
+        stroke: alpha($secondary,0.4)
+    }
+    66% {
+        stroke: alpha($secondary,0.4)
+    }
+    80%, 90% {
+        stroke: alpha($secondary,0.4)
+    }
+}
 
 @keyframes rotate {
     100% {

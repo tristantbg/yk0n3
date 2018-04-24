@@ -50,7 +50,7 @@ c::set('typography.hyphenation.titlecase', false);
 c::set('sitemap.exclude', array('error'));
 c::set('sitemap.important', array('contact'));
 c::set('thumb.quality', 100);
-//c::set('thumbs.driver', 'im');
+// c::set('thumbs.driver', 'im');
 c::set('routes', array(
 	// array(
 	// 	'pattern' => 'info/(:any)',

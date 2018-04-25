@@ -103,6 +103,6 @@
 
 	<div id="container">
 
-		<div id="page-content" page-type="<?= $page->intendedTemplate() ?>">
+		<div id="page-content" page-type="<?= $page->intendedTemplate() ?>" logo-color="dark">
 
         <div class="inner">

@@ -17,6 +17,7 @@
     display none
 
 #intro-text
+  transition color $colorTransition ease
   text-transform uppercase
   line-height 0.9
   position absolute
@@ -30,3 +31,7 @@
   #title-3, #title-4
     font-size 2rem
     line-height 1.1
+
+[logo-color=light]
+  #intro-text
+    color $primary

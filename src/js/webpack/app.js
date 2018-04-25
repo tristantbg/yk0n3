@@ -4,10 +4,11 @@ import lazysizes from 'lazysizes';
 import optimumx from 'lazysizes';
 require('../../../node_modules/lazysizes/plugins/object-fit/ls.object-fit.js');
 import Flickity from 'flickity';
-import TweenMax from 'gsap';
+import {TweenMax} from 'gsap';
 import Plyr from 'plyr';
 import Barba from 'barba.js';
 import Hls from 'hls.js';
+require('viewport-units-buggyfill').init();
 // import throttle from 'lodash.throttle';
 // import debounce from 'lodash.debounce';
 
@@ -37,7 +38,7 @@ const App = {
     App.pjax();
     new TimelineLite({
       onComplete: () => {
-        if (App.introPlayers.length > 0) {
+        if (App.introPlayers && App.introPlayers.length > 0) {
           // App.introPlayers[0].on('canplay', event => {
           //   console.log('ok')
           // });
@@ -46,7 +47,7 @@ const App = {
       }
     }).to('#loader .spinner', 0.6, {
       opacity: 0,
-      scale: 0.3,
+      // scale: 0.3,
       ease: Expo.easeOut
     }, '+=0.5').to('#loader', 0.3, {
       autoAlpha: 0
@@ -135,14 +136,14 @@ const App = {
       finish: function(_this, newContent) {
         App.videoPlayers.destroy();
         App.pageType = nextPageType;
-        App.pageTheme = newContent.getAttribute('page-theme');
+        App.logoColor = newContent.getAttribute('logo-color');
         App.scrollSave.get();
         _this.done();
         App.interact.init();
 
         setTimeout(function() {
           document.body.setAttribute("page-type", App.pageType);
-          document.documentElement.setAttribute("page-theme", App.pageTheme);
+          document.body.setAttribute("logo-color", App.logoColor);
         }, transitionDuration);
 
         if (nextPageType == 'project') {
@@ -173,7 +174,7 @@ const App = {
             new TimelineMax().to(newContent, 0.3, {
               opacity: 1
             });
-            if (App.introPlayers.length > 0) {
+            if (App.introPlayers && App.introPlayers.length > 0) {
               // App.introPlayers[0].on('canplay', event => {
               //   console.log('ok')
               // });
@@ -221,7 +222,7 @@ const App = {
             x: 0,
             ease: Expo.easeInOut
           })
-          manifesto.classList.add('popup')
+          document.getElementById('page-content').classList.add('popup')
         });
       }
 
@@ -297,11 +298,21 @@ const App = {
     },
     eventTargets: () => {
       App.interact.menuBurger()
-      const subClick = document.querySelectorAll('[event-target=submenu]');
+      const offices = document.querySelectorAll('[event-target=office]');
 
-      for (var i = subClick.length - 1; i >= 0; i--) {
-        subClick[i].addEventListener('click', (e) => {
-          e.currentTarget.parentNode.classList.toggle('opened');
+      for (var i = offices.length - 1; i >= 0; i--) {
+        var office = offices[i];
+        office.addEventListener('click', (e) => {
+          document.getElementById('page-content').classList.add('popup')
+          const description = document.querySelector('.dynamic-description');
+          if (description) {
+            description.innerHTML = e.currentTarget.getAttribute("data-caption");
+            App.interact.linkTargets();
+            TweenMax.to('#page-description', 0.6, {
+            x: 0,
+            ease: Expo.easeInOut
+          })
+          }
         });
       }
     },
@@ -377,6 +388,7 @@ const App = {
       const initFlickity = (element, options) => {
         var slider = new Flickity(element, options);
         slider.slidesCount = slider.slides.length;
+        slider.isEntries = element.classList.contains('slider-entries');
         if (slider.slidesCount < 1) return; // Stop if no slides
         slider.on('change', function() {
           // $('#slide-number').html((slider.selectedIndex + 1) + '/' + slider.slidesCount);
@@ -384,6 +396,14 @@ const App = {
             const caption = this.element.parentNode.querySelector(".caption");
             if (caption)
               caption.innerHTML = this.selectedElement.getAttribute("data-caption");
+
+            if (slider.isEntries) {
+              const description = document.querySelector('.dynamic-description');
+              if (description) {
+                description.innerHTML = this.selectedElement.getAttribute("data-caption");
+                App.interact.linkTargets();
+              }
+            }
           }
           var adjCellElems = this.getAdjacentCellElements(1);
           for (var i = 0; i < adjCellElems.length; i++) {
@@ -441,29 +461,8 @@ const App = {
             wrapAround: true,
             prevNextButtons: true,
             pageDots: false,
-            draggable: true,
-            dragThreshold: 30,
-            arrowShape: 'M74.3 99.3L25 50 74.3.7l.7.8L26.5 50 75 98.5z'
-          });
-        }
-      }
-      var elements = document.getElementsByClassName('inline-slider');
-      if (elements.length > 0) {
-        for (var i = 0; i < elements.length; i++) {
-          initFlickity(elements[i], {
-            cellSelector: '.inline-item',
-            cellAlign: 'left',
-            imagesLoaded: true,
-            lazyLoad: false,
-            setGallerySize: true,
-            adaptiveHeight: false,
-            percentPosition: true,
-            accessibility: true,
-            wrapAround: true,
-            contain: false,
-            prevNextButtons: true,
-            pageDots: false,
-            draggable: true,
+            draggable: '>1',
+            freeScroll: true,
             dragThreshold: 30,
             arrowShape: 'M74.3 99.3L25 50 74.3.7l.7.8L26.5 50 75 98.5z'
           });

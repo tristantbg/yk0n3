@@ -51,13 +51,13 @@ p
 		margin-bottom 0
 
 ::selection
-	background $secondary
+	background alpha($secondary, 0.1)
 
 ::-moz-selection
-	background $secondary
+	background alpha($secondary, 0.1)
 
 *
-	hideselect()
+	// hideselect()
 	box-sizing border-box
 
 video::-webkit-media-controls

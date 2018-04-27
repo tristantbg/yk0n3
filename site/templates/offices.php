@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div id="page-description" class="dynamic-description fixed">
+<div id="page-description" class="dynamic-description hide fixed">
   <?= $page->children()->visible()->first()->pageDescription() ?>
 </div>
 

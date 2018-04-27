@@ -81,6 +81,7 @@ const App = {
     window.addEventListener('mousewheel', e => {
 
       if (App.isScrolling) return;
+
       const goingUp = e.deltaY < 0 && Math.abs(e.deltaY) > 30;
       const goingDown = e.deltaY > 0 && Math.abs(e.deltaY) > 30;
       if (goingUp) {
@@ -88,11 +89,14 @@ const App = {
         const atTop = window.scrollY === 0;
         if (atTop) {
           App.transitionDirection = 'up';
-          const previous = (App.pageId - 1) === 0 ? pageLinks.length : App.pageId - 1;
+          const previous = (App.pageId - 1) < 0 ? (pageLinks.length - 1) : App.pageId - 1;
           const currentLink = document.querySelector('a.active');
           if (currentLink) currentLink.classList.remove('active');
-          if (pageLinks[previous]) pageLinks[previous].classList.add('active');
-          Barba.Pjax.goTo(pageLinks[previous].getAttribute('href'));
+          if (pageLinks[previous]) {
+            App.pageId = previous;
+            pageLinks[previous].classList.add('active');
+            Barba.Pjax.goTo(pageLinks[previous].getAttribute('href'));
+          }
           App.isScrolling = true;
         }
 
@@ -104,8 +108,11 @@ const App = {
           const next = (App.pageId + 1) === pageLinks.length ? 0 : App.pageId + 1;
           const currentLink = document.querySelector('a.active');
           if (currentLink) currentLink.classList.remove('active');
-          if (pageLinks[next]) pageLinks[next].classList.add('active');
-          Barba.Pjax.goTo(pageLinks[next].getAttribute('href'));
+          if (pageLinks[next]) {
+            App.pageId = next;
+            pageLinks[next].classList.add('active');
+            Barba.Pjax.goTo(pageLinks[next].getAttribute('href'));
+          }
           App.isScrolling = true;
         }
       }
@@ -431,9 +438,9 @@ const App = {
         let _this = this;
         const newContent = _this.newContainer.querySelector('#page-content');
         _this.newContainer.visibility = "visible";
-        // newContent.style.opacity = 0;
         nextPageType = newContent.getAttribute('page-type');
 
+        document.body.setAttribute('page-id', App.pageId);
         document.body.classList.add('is-loading');
         document.body.classList.remove('menu-on');
         const currentLink = document.querySelector('a.active');
@@ -441,37 +448,43 @@ const App = {
         if (linkClicked) linkClicked.classList.add('active');
         App.interact.init();
 
+        // newContent.style.opacity = 0;
 
-
-        setTimeout(function() {
+        if (nextPageType == "project") {
           new TimelineMax({
             onComplete: () => {
-              App.videoPlayers.destroy();
               _this.finish(_this, newContent);
             }
-          }).set(_this.newContainer, {
-            visibility: 'visible',
-            position: 'absolute',
-            'box-shadow': '0 0 30px rgba(0,0,0,0.3)',
-            top: 0,
-            left: 0,
-            zIndex: 15
-          }).set(_this.oldContainer, {
-            zIndex: 10
-          }).fromTo(newContent, 1, {
-            zIndex: 15,
-            yPercent: App.transitionDirection === 'up' ? -100 : 100
-          }, {
-            yPercent: 0,
-            force3D: true,
-            ease: Expo.easeOut
-          }).to(_this.oldContainer, 1, {
-            opacity: 0.4
-          }, '-=1').set(_this.newContainer, {
-            clearProps: 'all'
+          }).to("#page-content", 0.3, {
+            opacity: 0,
           });
-        }, 500);
-
+        } else {
+          setTimeout(function() {
+            new TimelineMax({
+              onComplete: () => {
+                App.videoPlayers.destroy();
+                _this.finish(_this, newContent);
+              }
+            }).set(_this.newContainer, {
+              visibility: 'visible',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              zIndex: 15
+            }).set(_this.oldContainer, {
+              zIndex: 10
+            }).fromTo(newContent, 1, {
+              zIndex: 15,
+              yPercent: App.transitionDirection === 'up' ? -100 : 100
+            }, {
+              yPercent: 0,
+              force3D: true,
+              ease: Expo.easeOut
+            }).set(_this.newContainer, {
+              clearProps: 'all'
+            });
+          }, 500);
+        }
 
       },
       finish: function(_this, newContent) {
@@ -497,9 +510,12 @@ const App = {
             App.introPlayers[0].play();
             document.body.setAttribute('logo-color', App.introPlayers[0].media.getAttribute('logo-color'));
           }
+          new TimelineMax().to(newContent, 0.3, {
+            opacity: 1
+          });
           document.body.classList.remove('is-loading');
-          App.isScrolling = false;
         }, 200);
+        App.isScrolling = false;
       }
 
 
@@ -513,7 +529,8 @@ const App = {
     });
     Barba.Pjax.Dom.wrapperId = "main";
     Barba.Pjax.Dom.containerClass = "pjax";
-    Barba.Pjax.cacheEnabled = false;
+    Barba.BaseCache.reset();
+    // Barba.Pjax.cacheEnabled = false;
     Barba.Pjax.start();
   }
 }

@@ -22,6 +22,8 @@
                 ->attr('width', '100%')
                 ->attr('height', 'auto')
                 ->attr('muted', 'true')
+                ->attr('autoplay', 'true')
+                ->attr('playsinline', 'true')
                 ->attr('loop', 'true')
                 ->attr('preload', 'auto');
 
@@ -44,9 +46,9 @@
 
   <?php endforeach ?>
 
-  <div id="page-description" class="fixed">
+  <div id="page-description" class="hide fixed">
     <h1><?= $page->title()->html() ?></h1>
-    <?= $page->text()->kt() ?>
+    <div><?= $page->text()->kt() ?></div>
   </div>
 
 </div>

@@ -64,7 +64,6 @@ const App = {
     // document.getElementById("loader").style.display = 'none';
   },
   sizeSet: () => {
-    App.pageType = App.body.getAttribute('page-type');
     App.width = (window.innerWidth || document.documentElement.clientWidth);
     App.height = (window.innerHeight || document.documentElement.clientHeight);
     if (App.width <= 1024)

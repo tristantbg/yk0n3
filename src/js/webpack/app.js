@@ -29,17 +29,6 @@ const stopBodyScrolling = (bool) => {
   }
 };
 
-const simulateClick = function(elem) {
-  // Create our event (with options)
-  var evt = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-    view: window
-  });
-  // If cancelled, don't dispatch our event
-  var canceled = !elem.dispatchEvent(evt);
-};
-
 const App = {
   header: null,
   siteTitle: null,
@@ -48,9 +37,13 @@ const App = {
     App.header = document.querySelector("header");
     App.siteTitle = document.querySelector("#site-title");
     App.menu = document.getElementById("menu");
+    App.sizeSet();
     App.setPageId();
     App.interact.init();
-    App.pjax();
+    if (!App.isMobile) {
+      App.pjax();
+      App.mouseWheel();
+    }
     new TimelineLite({
       onComplete: () => {
         if (App.introPlayers && App.introPlayers.length > 0) {
@@ -69,9 +62,21 @@ const App = {
       autoAlpha: 0
     }, '+=0.3');
     // document.getElementById("loader").style.display = 'none';
-
-
-
+  },
+  sizeSet: () => {
+    App.pageType = App.body.getAttribute('page-type');
+    App.width = (window.innerWidth || document.documentElement.clientWidth);
+    App.height = (window.innerHeight || document.documentElement.clientHeight);
+    if (App.width <= 1024)
+      App.isMobile = true;
+    if (App.isMobile) {
+      if (App.width >= 1024) {
+        // location.reload();
+        App.isMobile = false;
+      }
+    }
+  },
+  mouseWheel: () => {
     const pageLinks = document.querySelectorAll('a[page-id]');
 
     window.addEventListener('mousewheel', e => {

@@ -22,6 +22,7 @@
                 ->attr('width', '100%')
                 ->attr('height', 'auto')
                 ->attr('muted', 'true')
+                ->attr('loop', 'true')
                 ->attr('preload', 'auto');
 
           if ($v->stream()->isNotEmpty()) $video->attr('data-stream', $v->stream());

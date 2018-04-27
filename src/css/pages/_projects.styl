@@ -1,4 +1,12 @@
 #projects
+	span(8/12, $offset: 2/12)
+	display flex
+	flex-wrap wrap
+	justify-content space-between
+	+below($md)
+		width 100%
+		margin 0
+		padding 0 $padding
 	.project-item
 		background alpha($secondary, 0.1)
 		width 'calc((100% - %s) / 3)' % ($padding*2)
@@ -7,11 +15,10 @@
 		position relative
 		color $primary
 		letterspacing()
-		+above($md + 1)
-			&:nth-child(-n+3)
-				margin-top 0
+		&:nth-child(-n+3)
+			margin-top 0
 		+below($md)
-			width 100%
+			width 'calc((100% - %s) / 3)' % ($padding)
 	.project-item--infos
 			position absolute
 			top 0
@@ -22,8 +29,9 @@
 			opacity 0
 			transition opacity 300ms ease
 			z-index 2
-			&:hover
-				opacity 1
+			+above($md + 1)
+				&:hover
+					opacity 1
 	.project-item--title
 		title()
 		margin-bottom .2em

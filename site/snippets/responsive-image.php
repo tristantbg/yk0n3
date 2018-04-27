@@ -20,7 +20,12 @@
     <?php else: ?>
     <div class="ph" style="padding-bottom: <?= number_format(100 / $image->ratio(), 5, '.', '') ?>%"></div>
     <?php endif ?>
-		<img class="lazy lazyload"
+		<img 
+		<?php if (isset($preload)): ?>
+		class="lazy lazyload lazypreload"
+		<?php else: ?>
+		class="lazy lazyload"
+		<?php endif ?>
 		src="<?= $placeholder ?>"
 		data-src="<?= $src ?>"
 		data-srcset="<?= $srcset ?>"

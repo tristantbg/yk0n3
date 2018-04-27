@@ -53,6 +53,11 @@ fields:
   text:
     label: Description
     type: textarea
+  download:
+    label: Download
+    type: select
+    options: files
+    width: 1/2
   medias: 
     label: Images
     type: images

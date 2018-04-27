@@ -39,6 +39,7 @@
   "dependencies": {
     "barba.js": "^1.0.0",
     "flickity": "^2.1.1",
+    "flickity-hash": "^1.0.2",
     "gsap": "^1.20.4",
     "hls.js": "^0.9.1",
     "lazysizes": "^4.0.2",

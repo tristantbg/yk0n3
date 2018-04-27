@@ -4,7 +4,10 @@ import lazysizes from 'lazysizes';
 import optimumx from 'lazysizes';
 require('../../../node_modules/lazysizes/plugins/object-fit/ls.object-fit.js');
 import Flickity from 'flickity';
-import {TweenMax} from 'gsap';
+import 'flickity-hash';
+import {
+  TweenMax
+} from 'gsap';
 import Plyr from 'plyr';
 import Barba from 'barba.js';
 import Hls from 'hls.js';
@@ -26,6 +29,17 @@ const stopBodyScrolling = (bool) => {
   }
 };
 
+const simulateClick = function(elem) {
+  // Create our event (with options)
+  var evt = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    view: window
+  });
+  // If cancelled, don't dispatch our event
+  var canceled = !elem.dispatchEvent(evt);
+};
+
 const App = {
   header: null,
   siteTitle: null,
@@ -34,6 +48,7 @@ const App = {
     App.header = document.querySelector("header");
     App.siteTitle = document.querySelector("#site-title");
     App.menu = document.getElementById("menu");
+    App.setPageId();
     App.interact.init();
     App.pjax();
     new TimelineLite({
@@ -43,6 +58,7 @@ const App = {
           //   console.log('ok')
           // });
           App.introPlayers[0].play();
+          document.body.setAttribute('logo-color', App.introPlayers[0].media.getAttribute('logo-color'));
         }
       }
     }).to('#loader .spinner', 0.6, {
@@ -51,157 +67,61 @@ const App = {
       ease: Expo.easeOut
     }, '+=0.5').to('#loader', 0.3, {
       autoAlpha: 0
-    }, '+=0.3')
+    }, '+=0.3');
     // document.getElementById("loader").style.display = 'none';
+
+
+
+    const pageLinks = document.querySelectorAll('a[page-id]');
+
+    window.addEventListener('mousewheel', e => {
+
+      if (App.isScrolling) return;
+      const goingUp = e.deltaY < 0 && Math.abs(e.deltaY) > 30;
+      const goingDown = e.deltaY > 0 && Math.abs(e.deltaY) > 30;
+      if (goingUp) {
+        // going up
+        const atTop = window.scrollY === 0;
+        if (atTop) {
+          App.transitionDirection = 'up';
+          const previous = (App.pageId - 1) === 0 ? pageLinks.length : App.pageId - 1;
+          const currentLink = document.querySelector('a.active');
+          if (currentLink) currentLink.classList.remove('active');
+          if (pageLinks[previous]) pageLinks[previous].classList.add('active');
+          Barba.Pjax.goTo(pageLinks[previous].getAttribute('href'));
+          App.isScrolling = true;
+        }
+
+      } else if (goingDown) {
+        // going down
+        const atBottom = window.scrollY + document.documentElement.clientHeight == document.documentElement.offsetHeight;
+        if (atBottom) {
+          App.transitionDirection = 'down';
+          const next = (App.pageId + 1) === pageLinks.length ? 0 : App.pageId + 1;
+          const currentLink = document.querySelector('a.active');
+          if (currentLink) currentLink.classList.remove('active');
+          if (pageLinks[next]) pageLinks[next].classList.add('active');
+          Barba.Pjax.goTo(pageLinks[next].getAttribute('href'));
+          App.isScrolling = true;
+        }
+      }
+    });
   },
-  scrollSave: {
-    set: () => {
-      if (App.pageType === "projects" && Modernizr.sessionstorage) {
-        sessionStorage.setItem('scroll-home', window.scrollY);
-      }
-    },
-    get: () => {
-      if (App.pageType === "projects" && Modernizr.sessionstorage) {
-        const scrollTop = sessionStorage.getItem('scroll-home') || 0;
-        window.scroll(0, scrollTop);
-      } else {
-        window.scroll(0, 0);
-      }
+  setPageId: () => {
+    const pageId = document.querySelector('a[page-id].active');
+    if (pageId) {
+      App.pageId = parseInt(pageId.getAttribute('page-id'), 10);
+    } else {
+      App.pageId = 0;
     }
-  },
-  pjax: () => {
-    let transitionDuration = 300;
-    let linkClicked;
-    let nextPageType;
-    const HideShowTransition = Barba.BaseTransition.extend({
-      start: function() {
-        let _this = this;
-        App.scrollSave.set();
-        _this.newContainerLoading.then(_this.startTransition.bind(_this));
-      },
-      startTransition: function() {
-        let _this = this;
-        const newContent = _this.newContainer.querySelector('#page-content');
-        newContent.style.opacity = 0;
-        nextPageType = newContent.getAttribute('page-type');
-
-        document.body.classList.add("is-loading");
-
-        if (false && !App.isMobile && nextPageType == 'project') {
-          linkClicked.classList.add("clicked");
-          const selectedProject = linkClicked.getAttribute('data-id');
-          const selectedProjectOverview = document.querySelector('.overview[data-project="' + selectedProject + '"]');
-          const selectedProjectOverviews = selectedProjectOverview.querySelectorAll('img:not(.active)');
-
-          // Select
-          selectedProjectOverview.classList.add('clicked');
-          App.preloadImages(selectedProjectOverviews);
-
-          TweenMax.to('.project-item:not(.clicked), #categories, #about-btn, #infos-btn, #about', 0.1, {
-            opacity: 0,
-            onComplete: () => {
-              new TimelineMax({
-                onComplete: () => {
-                  _this.finish(_this, newContent);
-                }
-              }).fromTo(linkClicked, 0.3, {
-                opacity: 1,
-                position: 'fixed',
-                top: linkClicked.getBoundingClientRect().top,
-                ease: Power3.easeInOut
-              }, {
-                top: '50%',
-                yPercent: -50,
-                force3D: true,
-                onComplete: () => {
-                  App.interact.loopImages(selectedProjectOverview);
-                },
-                ease: Expo.easeInOut
-              }, '+=0.1').to([selectedProjectOverview, linkClicked], 0.3, {
-                opacity: 0
-              }, '+=1');
-            }
-          });
-
-        } else {
-          new TimelineMax({
-            onComplete: () => {
-              _this.finish(_this, newContent);
-            }
-          }).to("#page-content", 0.3, {
-            opacity: 0,
-          });
-        }
-      },
-      finish: function(_this, newContent) {
-        App.videoPlayers.destroy();
-        App.pageType = nextPageType;
-        App.logoColor = newContent.getAttribute('logo-color');
-        App.scrollSave.get();
-        _this.done();
-        App.interact.init();
-
-        setTimeout(function() {
-          document.body.setAttribute("page-type", App.pageType);
-          document.body.setAttribute("logo-color", App.logoColor);
-        }, transitionDuration);
-
-        if (nextPageType == 'project') {
-          // project transition
-          setTimeout(function() {
-            new TimelineMax({
-              onComplete: () => {
-                TweenLite.set("#project-description", {
-                  clearProps: "all"
-                });
-              }
-            }).set(newContent, {
-              opacity: 1
-            }).fromTo("#project-sections", 0.6, {
-              y: App.height
-            }, {
-              y: 0,
-              ease: Expo.easeInOut
-            }).fromTo("#project-description", 0.3, {
-              opacity: 0
-            }, {
-              opacity: 1
-            });
-            document.body.classList.remove("is-loading");
-          }, transitionDuration + 200);
-        } else {
-          setTimeout(function() {
-            new TimelineMax().to(newContent, 0.3, {
-              opacity: 1
-            });
-            if (App.introPlayers && App.introPlayers.length > 0) {
-              // App.introPlayers[0].on('canplay', event => {
-              //   console.log('ok')
-              // });
-              App.introPlayers[0].play();
-            }
-            document.body.classList.remove("is-loading");
-          }, transitionDuration);
-        }
-
-      }
-    });
-    Barba.Pjax.getTransition = function() {
-      return HideShowTransition;
-    };
-    Barba.Dispatcher.on('linkClicked', function(el) {
-      linkClicked = el;
-    });
-    Barba.Pjax.Dom.wrapperId = "main";
-    Barba.Pjax.Dom.containerClass = "pjax";
-    Barba.Pjax.start();
+    document.body.setAttribute('page-id', App.pageId);
   },
   videoPlayers: {
     init: () => {
 
       const introVideos = document.getElementsByClassName('intro-video');
       const manifesto = document.getElementById('manifesto');
-      console.log(manifesto)
+
 
       if (introVideos.length > 0) {
         App.videoPlayers.prepare(introVideos);
@@ -216,17 +136,27 @@ const App = {
       }
 
       if (manifesto && introVideos.length > 0) {
-        console.log(App.introPlayers[0])
-        App.introPlayers[0].on('ended', event => {
-          TweenMax.to('#page-description', 0.6, {
+        // App.introPlayers[0].on('ended', event => {
+        //   TweenMax.to('#page-description', 0.6, {
+        //     x: 0,
+        //     ease: Expo.easeInOut
+        //   })
+        //   document.getElementById('page-content').classList.add('popup')
+        // });
+
+        setTimeout(function() {
+          TweenMax.to('#page-description', 0.8, {
             x: 0,
             ease: Expo.easeInOut
-          })
-          document.getElementById('page-content').classList.add('popup')
-        });
+          });
+          TweenMax.to('#manifesto .plyr', 0.8, {
+            width: '60%',
+            ease: Expo.easeInOut
+          });
+          // document.getElementById('page-content').classList.add('popup')
+        }, 3000);
+
       }
-
-
 
       if (App.introPlayers && App.introPlayers.length > 1) {
 
@@ -297,7 +227,7 @@ const App = {
       App.videoPlayers.init()
     },
     eventTargets: () => {
-      App.interact.menuBurger()
+      App.interact.menuBurger();
       const offices = document.querySelectorAll('[event-target=office]');
 
       for (var i = offices.length - 1; i >= 0; i--) {
@@ -309,9 +239,9 @@ const App = {
             description.innerHTML = e.currentTarget.getAttribute("data-caption");
             App.interact.linkTargets();
             TweenMax.to('#page-description', 0.6, {
-            x: 0,
-            ease: Expo.easeInOut
-          })
+              x: 0,
+              ease: Expo.easeInOut
+            })
           }
         });
       }
@@ -327,7 +257,6 @@ const App = {
         }
       }
     },
-
     menuBurger: () => {
       const burger = document.getElementById('burger');
       if (burger) {
@@ -335,44 +264,41 @@ const App = {
           document.body.classList.toggle("menu-on");
           burger.classList.toggle("opened");
 
-          // if (burger.classList.contains("opened")) {
-          //   App.interact.menu.on();
-          // } else {
-          //   App.interact.menu.off();
-          // }
+          if (burger.classList.contains("opened")) {
+            App.interact.menu.on();
+          } else {
+            App.interact.menu.off();
+          }
         });
       }
     },
     menu: {
       on: () => {
         stopBodyScrolling(true);
-        App.container.style.marginBottom = "0px";
-        App.menuOver.classList.add('opened');
-        new TimelineLite().set(App.menuOver, {
+        new TimelineLite().set("#secondary-menu", {
           autoAlpha: 1,
-        }).fromTo(App.menuOver, 0.5, {
-          yPercent: 100,
+        }).fromTo("#secondary-menu", 0.5, {
+          xPercent: 100,
           force3D: true,
         }, {
-          yPercent: 0,
+          xPercent: 0,
           force3D: true,
           ease: Power3.easeInOut
+        }).to('#logo', 0.3, {
+          autoAlpha: 1
         });
       },
       off: () => {
         stopBodyScrolling(false);
-        burger.classList.remove("opened");
-        App.menuOver.classList.remove('opened');
-        new TimelineLite().fromTo(App.menuOver, 0.5, {
-          yPercent: 0,
+        new TimelineLite().to('#logo', 0.3, {
+          autoAlpha: 0
+        }).fromTo("#secondary-menu", 0.5, {
+          xPercent: 0,
           force3D: true,
         }, {
-          yPercent: 100,
+          xPercent: 100,
           force3D: true,
           ease: Power3.easeInOut
-        }).set(App.menuOver, {
-          autoAlpha: 0,
-          onComplete: App.sizeSet
         });
       }
     },
@@ -401,6 +327,7 @@ const App = {
               const description = document.querySelector('.dynamic-description');
               if (description) {
                 description.innerHTML = this.selectedElement.getAttribute("data-caption");
+                document.getElementById('page-description').scroll(0, 0);
                 App.interact.linkTargets();
               }
             }
@@ -453,7 +380,8 @@ const App = {
             cellSelector: '.slide',
             imagesLoaded: true,
             lazyLoad: 3,
-            cellAlign: 'left',
+            hash: true,
+            cellAlign: elements[i].getAttribute('cell-align'),
             setGallerySize: false,
             adaptiveHeight: false,
             percentPosition: true,
@@ -469,6 +397,120 @@ const App = {
         }
       }
     }
+  },
+  scrollSave: {
+    set: () => {
+      if (App.pageType === "projects" && Modernizr.sessionstorage) {
+        sessionStorage.setItem('scroll-home', window.scrollY);
+      }
+    },
+    get: () => {
+      if (App.pageType === "projects" && Modernizr.sessionstorage) {
+        const scrollTop = sessionStorage.getItem('scroll-home') || 0;
+        window.scroll(0, scrollTop);
+      } else {
+        window.scroll(0, 0);
+      }
+    }
+  },
+  pjax: () => {
+    let transitionDuration = 300;
+    let linkClicked;
+    let nextPageType;
+    const HideShowTransition = Barba.BaseTransition.extend({
+      start: function() {
+        let _this = this;
+        App.scrollSave.set();
+        _this.newContainerLoading.then(_this.startTransition.bind(_this));
+      },
+      startTransition: function() {
+        let _this = this;
+        const newContent = _this.newContainer.querySelector('#page-content');
+        _this.newContainer.visibility = "visible";
+        // newContent.style.opacity = 0;
+        nextPageType = newContent.getAttribute('page-type');
+
+        document.body.classList.add('is-loading');
+        document.body.classList.remove('menu-on');
+        const currentLink = document.querySelector('a.active');
+        if (currentLink) currentLink.classList.remove('active');
+        if (linkClicked) linkClicked.classList.add('active');
+        App.interact.init();
+
+
+
+        setTimeout(function() {
+          new TimelineMax({
+            onComplete: () => {
+              App.videoPlayers.destroy();
+              _this.finish(_this, newContent);
+            }
+          }).set(_this.newContainer, {
+            visibility: 'visible',
+            position: 'absolute',
+            'box-shadow': '0 0 30px rgba(0,0,0,0.3)',
+            top: 0,
+            left: 0,
+            zIndex: 15
+          }).set(_this.oldContainer, {
+            zIndex: 10
+          }).fromTo(newContent, 1, {
+            zIndex: 15,
+            yPercent: App.transitionDirection === 'up' ? -100 : 100
+          }, {
+            yPercent: 0,
+            force3D: true,
+            ease: Expo.easeOut
+          }).to(_this.oldContainer, 1, {
+            opacity: 0.4
+          }, '-=1').set(_this.newContainer, {
+            clearProps: 'all'
+          });
+        }, 500);
+
+
+      },
+      finish: function(_this, newContent) {
+
+        _this.done();
+        App.pageType = nextPageType;
+        App.logoColor = newContent.getAttribute('logo-color');
+        document.body.setAttribute("page-type", App.pageType);
+        document.body.setAttribute("logo-color", App.logoColor);
+        // App.scrollSave.get();
+
+
+        App.interact.menuBurger();
+        setTimeout(function() {
+          App.setPageId();
+        }, transitionDuration);
+
+        setTimeout(function() {
+          if (App.introPlayers && App.introPlayers.length > 0) {
+            // App.introPlayers[0].on('canplay', event => {
+            //   console.log('ok')
+            // });
+            App.introPlayers[0].play();
+            document.body.setAttribute('logo-color', App.introPlayers[0].media.getAttribute('logo-color'));
+          }
+          document.body.classList.remove('is-loading');
+          App.isScrolling = false;
+        }, 200);
+      }
+
+
+    });
+    Barba.Pjax.getTransition = function() {
+      return HideShowTransition;
+    };
+    Barba.Dispatcher.on('linkClicked', function(el) {
+      linkClicked = el;
+      App.transitionDirection = 'down';
+    });
+    Barba.Pjax.Dom.wrapperId = "main";
+    Barba.Pjax.Dom.containerClass = "pjax";
+    Barba.Pjax.cacheEnabled = false;
+    Barba.Pjax.start();
   }
 }
 

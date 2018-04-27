@@ -1,9 +1,10 @@
-<div class="slider">
+<div class="slider" cell-align="left">
   <?php foreach ($medias as $key => $image): ?>
 
     <?php if($image = $image->toFile()): ?>
 
       <div class="slide"
+      id="<?= $page->uid().'-'.$key ?>" 
       data-caption="<?= $image->caption()->kt()->escape() ?>"
       >
 
@@ -13,9 +14,9 @@
           $src = $image->width(1000)->url();
           for ($i = 1000; $i <= 3000; $i += 500) $srcset .= $image->width($i)->url() . ' ' . $i . 'w,';
           ?>
-          <img class="media lazy<?php e($key < 3, " lazyload lazypreload") ?>"
+          <img class="media <?php e($key < 3, " lazyload lazypreload") ?>"
+          src="<?php $image->width(500)->url() ?>"
           <?php if ($key < 3): ?>
-          src="<?php $image->width(50)->dataUri() ?>"
           <?php endif ?>
           data-flickity-lazyload="<?= $src ?>"
           data-srcset="<?= $srcset ?>"

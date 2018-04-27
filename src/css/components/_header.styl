@@ -1,31 +1,53 @@
 #menu
 	hideselect()
-	width: 100vh;
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	background: white;
-	z-index: 300;
-	transform: rotate(90deg) translateY(100%);
-	transform-origin: bottom right;
+	width 100vh
+	position fixed
+	bottom 0
+	right 0
+	background $primary
+	z-index 300
+	transform rotate(90deg) translateY(100%)
+	transform-origin bottom right
 	padding ($padding+1.5)
 	padding-left ($padding*4+1)
 	+above($xl)
 		padding-left ($padding*4+4)
+	+below($md)
+		display none
 	ul
 		text-transform uppercase
-		display: flex;
+		display flex
 		justify-content space-between
 		align-items center
+		position relative
+		top -0.1em
 		li
 			margin 0 1em
+			white-space nowrap
 			&:first-child
 				margin-left 0
 			&:last-child
 				margin-right 0
-			a.active
-				bold()
-				border-bottom 1px solid
+			&.disabled
+				display none
+			a
+				position relative
+				&::before
+					content ''
+					position absolute
+					bottom -.2em
+					left 0
+					width 100%
+					height 1px
+					background currentColor
+					transition transform 400ms ease
+					transform-origin left
+					transform scaleX(0)
+				&.active
+					bold()
+					&::before
+						transform-origin right
+						transform scaleX(1)
 	#languages
 		display inline-flex
 		a
@@ -33,3 +55,87 @@
 		a:not(:last-child)::after
 			content '/'
 			font-family 'CG', Helvetica Neue, Arial, sans-serif
+
+#secondary-menu
+	hideselect()
+	position fixed
+	height 100vh
+	min-width 27rem
+	top 0
+	right 0
+	background $primary
+	z-index 301
+	padding ($padding+1.5)
+	padding-top ($padding*5+1)
+	display flex
+	justify-content space-between
+	flex-direction column
+	visibility hidden
+	+above($xl)
+		padding-top ($padding*5+4)
+	ul
+		text-transform uppercase
+		display flex
+		flex-direction column
+		li
+			padding-bottom .5em
+			a
+				position relative
+				&::before
+					content ''
+					position absolute
+					bottom -.2em
+					left 0
+					width 100%
+					height 1px
+					background currentColor
+					transition transform 400ms ease
+					transform scaleX(0)
+					transform-origin right
+				&.active
+					bold()
+					&::before
+						transform-origin left
+						transform scaleX(1)
+	#languages
+		margin-top 1em
+		display inline-flex
+		a
+			display inline-flex
+		a:not(:last-child)::after
+			content '/'
+			font-family 'CG', Helvetica Neue, Arial, sans-serif
+	#menu-footer
+		#links
+			margin-bottom 1em
+			a
+				title()
+		#contact
+			margin-bottom 1em
+		#socials
+			a
+				margin-right 1em
+		#socials-icons
+			display inline-flex
+			a
+				margin-right 0.5rem
+				.icon
+					width 1.3rem
+					height 1.3rem
+					svg
+						display block
+						width 100%
+						height 100%
+				
+.menu-on
+	#page-content
+		&::before
+			opacity 1
+			visibility visible
+			z-index 50
+	#logo
+		svg path
+			fill $secondary !important
+			// transition none
+	#secondary-menu
+		// 

@@ -1,6 +1,9 @@
 .slider
-	height 100vh
 	hideselect()
+	+above($md + 1)
+		height 100vh
+	+below($md)
+		height calc(100vh - 8rem)
 	.slide
 		height 100%
 		margin-right 0.7rem
@@ -39,8 +42,6 @@
 		border-radius 0
 		z-index 10
 		mix-blend-mode difference
-		+below($md)
-			display none
 		&.previous
 			left 0
 		&.next

@@ -35,3 +35,28 @@ fields:
     type: image
     help: 1200x630px minimum
     width: 1/2
+  links:
+    label: Links
+    type: structure
+    style: table
+    fields:
+      url:
+        label: URL
+        type: url
+      title:
+        label: Title
+        type: text
+  contact:
+    label: Contact
+    type:  textarea
+  socials:
+    label: Socials
+    type: structure
+    style: table
+    fields:
+      url:
+        label: URL
+        type: url
+      title:
+        label: Title
+        type: text

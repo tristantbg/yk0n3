@@ -1,11 +1,10 @@
-<div class="slider slider-entries">
+<div class="slider slider-entries" cell-align="left">
   <?php foreach ($collection as $key => $p): ?>
 
-    <?php foreach ($p->medias()->toStructure() as $key => $image): ?>
+      <?php if($image = $p->featured()->toFile()): ?>
 
-      <?php if($image = $image->toFile()): ?>
-
-        <div class="slide"
+        <div class="slide" 
+        id="<?= $p->uid() ?>" 
         data-caption="<?= esc($p->pageDescription()) ?>"
         >
 
@@ -15,10 +14,8 @@
             $src = $image->width(1000)->url();
             for ($i = 1000; $i <= 3000; $i += 500) $srcset .= $image->width($i)->url() . ' ' . $i . 'w,';
             ?>
-            <img class="media lazy<?php e($key < 3, " lazyload lazypreload") ?>"
-            <?php if ($key < 3): ?>
-            src="<?php $image->width(50)->dataUri() ?>"
-            <?php endif ?>
+            <img class="media <?php e($key < 3, " lazyload lazypreload") ?>"
+          	src="<?php $image->width(500)->url() ?>"
             data-flickity-lazyload="<?= $src ?>"
             data-srcset="<?= $srcset ?>"
             data-sizes="auto"
@@ -32,8 +29,6 @@
         </div>
 
       <?php endif ?>
-
-    <?php endforeach ?>
 
   <?php endforeach ?>
 </div>

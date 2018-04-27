@@ -1,6 +1,6 @@
 <?php snippet('header') ?>
 
-<div id="projects" class="c8 co2 fl x xjb xw">
+<div id="projects">
 	<?php foreach ($projects as $key => $project): ?>
 
 		<?php if(true || $project->featured()->isNotEmpty()): ?>
@@ -8,7 +8,7 @@
 			<a href="<?= $project->url() ?>" class="project-item">
 
 				<?php if ($project->featured()->isNotEmpty()): ?>
-					<?php snippet('responsive-image', array('field' => $project->featured(), 'ratio' => 1/1, 'maxWidth' => 1000)) ?>
+					<?php snippet('responsive-image', array('field' => $project->featured(), 'ratio' => 1/1, 'maxWidth' => 1000, 'preload' => true)) ?>
 				<?php else: ?>
 					<div class="ph" style="padding-top: 100%"></div>
 				<?php endif ?>

@@ -129,6 +129,7 @@
 
 .plyr__video-wrapper {
   position: relative;
+  background: white;
   border-radius: inherit;
   height: 100%;
   cursor: none !important; }

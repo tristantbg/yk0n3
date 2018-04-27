@@ -69,7 +69,13 @@
 
 </head>
 
-<body page-type="<?= $page->intendedTemplate() ?>" logo-color="dark">
+<body page-type="<?= $page->intendedTemplate() ?>" 
+	<?php if ($page->isHomepage() && $page->pageVideos()->isNotEmpty()): ?>
+	logo-color="<?= $page->pageVideos()->toStructure()->first()->color() ?>"
+	<?php else: ?>
+	logo-color="dark"
+	<?php endif ?>
+	>
 
 <div id="outdated">
 	<div class="inner">
@@ -81,10 +87,10 @@
 <div id="loader">
   <div class="spinner">
     <svg class="circular" viewBox="25 25 50 50">
-    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="1.5" stroke-miterlimit="10"></circle>
     </svg>
     <svg class="circular" viewBox="25 25 50 50">
-    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="1.5" stroke-miterlimit="10"></circle>
     </svg>
   </div>
 </div>

@@ -1,9 +1,12 @@
 #manifesto
-  position absolute
-  top 0
-  left 0
   width 100%
   height 100%
+  +above($md + 1)
+    position absolute
+    top 0
+    left 0
+  +below($md)
+    height calc(100vh - 8rem)
   video
     width 100%
     height 100%
@@ -16,6 +19,7 @@
   .plyr:not(:first-child)
     display none
 
-[page-type=manifesto]
-  #page-description
-    transform translateX(100%)
++above($md + 1)
+  [page-type=manifesto]
+    #page-description
+      transform translateX(100%)

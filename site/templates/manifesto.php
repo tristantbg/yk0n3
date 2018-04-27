@@ -46,7 +46,7 @@
 
   <div id="page-description" class="fixed">
     <h1><?= $page->title()->html() ?></h1>
-    <br><?= $page->text()->kt() ?>
+    <?= $page->text()->kt() ?>
   </div>
 
 </div>

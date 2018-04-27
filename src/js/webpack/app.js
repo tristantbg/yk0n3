@@ -139,7 +139,7 @@ const App = {
         App.introPlayers = Array.from(document.querySelectorAll('.intro-video')).map(player => new Plyr(player, options));
       }
 
-      if (manifesto && introVideos.length > 0) {
+      if (!App.isMobile && manifesto && introVideos.length > 0) {
         // App.introPlayers[0].on('ended', event => {
         //   TweenMax.to('#page-description', 0.6, {
         //     x: 0,

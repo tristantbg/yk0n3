@@ -33,13 +33,16 @@ em, .italic
 	font-family 'CGI', Helvetica Neue, Arial, sans-serif
 
 title()
-	display inline-block
-	border-bottom 1px solid
-	padding-bottom .2em
+	display inline
+	// border-bottom 1px solid
+	box-shadow 0 1px 0
+	padding-bottom 0.1em
 	text-transform uppercase
 	bold()
 	&:not(:last-child)
 		margin-bottom 1em
+		&+ *
+			margin-top 1em
 
 .responsive-image
 	hideselect()

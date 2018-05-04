@@ -2,6 +2,12 @@
 Thumbs.db
 yarn.lock
 yarn-error.log
+/assets/fonts/*
+/assets/css/app.min.css
+/assets/css/build/*
+/assets/js/app.concat.js
+/assets/js/plugins.concat.js
+/assets/js/build/*
 /content/*
 /node_modules
 /npm-debug.log

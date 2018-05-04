@@ -1,6 +1,5 @@
 title: Offices
 files: true
-deletable: false
 fields:
   prevnext: prevnext
   title:

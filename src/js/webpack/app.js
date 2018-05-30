@@ -46,11 +46,11 @@ const App = {
     if (!App.isMobile) {
       // App.pjax();
       $('#mobile-home').remove()
-      const anchors = document.querySelectorAll('[data-menuanchor]')
-      for (var i = 0; i < anchors.length; i++) {
-        anchors[i].setAttribute('href', '#' + anchors[i].dataset.menuanchor)
-      }
       if (document.getElementById('fullpage')) {
+        const anchors = document.querySelectorAll('[data-menuanchor]')
+        for (var i = 0; i < anchors.length; i++) {
+          anchors[i].setAttribute('href', '#' + anchors[i].dataset.menuanchor)
+        }
         $('#fullpage').fullpage({
           menu: '#menu',
           normalScrollElements: '.page-description',

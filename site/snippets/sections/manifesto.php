@@ -1,10 +1,6 @@
-<?php snippet('re-route') ?>
-
-<?php snippet('header') ?>
-
 <div id="manifesto">
 
-  <?php foreach ($page->pagevideo()->toStructure() as $key => $v): ?>
+  <?php foreach ($data->pagevideo()->toStructure() as $key => $v): ?>
 
       <?php
 
@@ -18,14 +14,14 @@
           $v->webm()->isNotEmpty()) {
 
           $video = brick('video')
-                ->attr('class', 'media intro-video contain')
+                ->attr('class', 'media manifesto-video contain')
                 ->attr('poster', $poster)
                 ->attr('logo-color', $v->color())
                 ->attr('width', '100%')
                 ->attr('height', 'auto')
-                ->attr('muted', 'true')
-                ->attr('autoplay', 'true')
-                ->attr('playsinline', 'true')
+                ->attr('muted', '')
+                // ->attr('autoplay', 'true')
+                ->attr('playsinline', '')
                 ->attr('loop', 'true')
                 ->attr('preload', 'auto');
 
@@ -48,11 +44,9 @@
 
   <?php endforeach ?>
 
-  <div id="page-description" class="hide fixed">
-    <h1><?= $page->title()->html() ?></h1>
-    <div><?= $page->text()->kt() ?></div>
+  <div id="page-description" class="page-description hide fixed">
+    <h1><?= $data->title()->html() ?></h1>
+    <div><?= $data->text()->kt() ?></div>
   </div>
 
 </div>
-
-<?php snippet('footer') ?>

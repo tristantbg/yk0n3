@@ -11,6 +11,9 @@ import {
 import Plyr from 'plyr';
 import Barba from 'barba.js';
 import Hls from 'hls.js';
+import './iscroll'
+// require('../../../node_modules/fullPage.js/vendors/scrolloverflow.min.js');
+import fullpage from 'fullPage.js';
 require('viewport-units-buggyfill').init();
 // import throttle from 'lodash.throttle';
 // import debounce from 'lodash.debounce';
@@ -32,35 +35,152 @@ const stopBodyScrolling = (bool) => {
 const App = {
   header: null,
   siteTitle: null,
-  introPlayers: null,
+  introPlayers: [],
   initialize: () => {
     App.header = document.querySelector("header");
     App.siteTitle = document.querySelector("#site-title");
     App.menu = document.getElementById("menu");
+    App.players = document.querySelectorAll('video')
     App.sizeSet();
-    App.setPageId();
-    App.interact.init();
+
     if (!App.isMobile) {
-      App.pjax();
-      App.mouseWheel();
-    }
-    new TimelineLite({
-      onComplete: () => {
-        if (App.introPlayers && App.introPlayers.length > 0) {
-          // App.introPlayers[0].on('canplay', event => {
-          //   console.log('ok')
-          // });
-          App.introPlayers[0].play();
-          document.body.setAttribute('logo-color', App.introPlayers[0].media.getAttribute('logo-color'));
-        }
+      // App.pjax();
+      $('#mobile-home').remove()
+      const anchors = document.querySelectorAll('[data-menuanchor]')
+      for (var i = 0; i < anchors.length; i++) {
+        anchors[i].setAttribute('href', '#' + anchors[i].dataset.menuanchor)
       }
-    }).to('#loader .spinner', 0.6, {
-      opacity: 0,
-      // scale: 0.3,
-      ease: Expo.easeOut
-    }, '+=0.5').to('#loader', 0.3, {
-      autoAlpha: 0
-    }, '+=0.3');
+      if (document.getElementById('fullpage')) {
+        $('#fullpage').fullpage({
+          menu: '#menu',
+          normalScrollElements: '.page-description',
+          scrollOverflow: true,
+          scrollOverflowReset: false,
+          slideSelector: false,
+          continuousVertical: true,
+          // afterLoad: function(anchorLink, index) {
+          //   var loadedSection = $(this);
+          // },
+          afterRender: function() {
+            $('section.section.active').addClass('animate');
+            new TimelineLite().to('#loader .spinner', 0.6, {
+              opacity: 0,
+              // scale: 0.3,
+              ease: Expo.easeOut
+            }, '+=0.5').to('#loader', 0.3, {
+              autoAlpha: 0
+            }, '+=0.3');
+            // App.setPageId();
+          },
+          afterLoad: function(anchorLink, index) {
+            var loadedSection = $(this)
+            App.videoPlayers.play(loadedSection[0])
+          },
+          onLeave: function(index, nextIndex, direction) {
+            if (direction == "up") {
+              document.getElementById('fullpage').classList.add('going-up')
+            } else {
+              document.getElementById('fullpage').classList.remove('going-up')
+            }
+            var slide = $(this)
+            var nextSection = document.querySelector('section.section:nth-child(' + nextIndex + ')')
+            setTimeout(function() {
+              nextSection.classList.add('animate')
+            }, 100)
+            slide.addClass('leaving').removeClass('animate')
+            document.body.setAttribute('page-type', nextSection.getAttribute('page-type'))
+            App.videoPlayers.stop()
+            setTimeout(function() {
+              slide.removeClass('leaving')
+            }, 600);
+            switch (nextIndex) {
+              case 0:
+                App.introPlayers[0].play();
+                document.body.setAttribute('logo-color', App.introPlayers[0].media.getAttribute('logo-color'))
+                break;
+              default:
+                document.body.setAttribute('logo-color', 'dark');
+                break;
+            }
+            if (nextSection.getAttribute('page-type') == 'manifesto') {
+              const p = nextSection.querySelector('#page-description');
+              const v = nextSection.querySelector('#manifesto .plyr');
+              TweenMax.set(p, {
+                xPercent: 100,
+              });
+              TweenMax.set(v, {
+                width: '100%',
+              });
+              setTimeout(function() {
+                TweenMax.to(p, 0.8, {
+                  xPercent: 0,
+                  ease: Expo.easeInOut
+                });
+                TweenMax.to(v, 0.8, {
+                  width: '60%',
+                  ease: Expo.easeInOut
+                });
+                // document.getElementById('page-content').classList.add('popup')
+              }, 3000);
+            }
+          }
+        });
+      } else {
+        new TimelineLite({
+          onComplete: () => {
+            if (App.introPlayers && App.introPlayers.length > 0) {
+              // App.introPlayers[0].on('canplay', event => {
+              //   console.log('ok')
+              // });
+              App.introPlayers[0].play();
+              document.body.setAttribute('logo-color', App.introPlayers[0].media.getAttribute('logo-color'));
+            }
+          }
+        }).to('#loader .spinner', 0.6, {
+          opacity: 0,
+          // scale: 0.3,
+          ease: Expo.easeOut
+        }, '+=0.5').to('#loader', 0.3, {
+          autoAlpha: 0
+        }, '+=0.3');
+      }
+      // App.mouseWheel();
+    } else {
+      $('#fullpage').remove()
+      new TimelineLite({
+        onComplete: () => {
+          if (App.introPlayers && App.introPlayers.length > 0) {
+            // App.introPlayers[0].on('canplay', event => {
+            //   console.log('ok')
+            // });
+            App.introPlayers[0].play();
+            document.body.setAttribute('logo-color', App.introPlayers[0].media.getAttribute('logo-color'));
+          }
+        }
+      }).to('#loader .spinner', 0.6, {
+        opacity: 0,
+        // scale: 0.3,
+        ease: Expo.easeOut
+      }, '+=0.5').to('#loader', 0.3, {
+        autoAlpha: 0
+      }, '+=0.3');
+    }
+    if (!App.isMobile) {
+
+      setTimeout(function() {
+        TweenMax.to('#page-description', 0.8, {
+          x: 0,
+          ease: Expo.easeInOut
+        });
+        TweenMax.to('#manifesto .plyr', 0.8, {
+          width: '60%',
+          ease: Expo.easeInOut
+        });
+        // document.getElementById('page-content').classList.add('popup')
+      }, 3000);
+
+    }
+    App.interact.init();
     // document.getElementById("loader").style.display = 'none';
   },
   sizeSet: () => {
@@ -144,30 +264,10 @@ const App = {
           iconUrl: _root + "/assets/images/plyr.svg"
         };
         App.introPlayers = Array.from(document.querySelectorAll('.intro-video')).map(player => new Plyr(player, options));
+        App.manifesto = Array.from(document.querySelectorAll('.manifesto-video')).map(player => new Plyr(player, options));
       }
 
-      if (!App.isMobile && manifesto && introVideos.length > 0) {
-        // App.introPlayers[0].on('ended', event => {
-        //   TweenMax.to('#page-description', 0.6, {
-        //     x: 0,
-        //     ease: Expo.easeInOut
-        //   })
-        //   document.getElementById('page-content').classList.add('popup')
-        // });
 
-        setTimeout(function() {
-          TweenMax.to('#page-description', 0.8, {
-            x: 0,
-            ease: Expo.easeInOut
-          });
-          TweenMax.to('#manifesto .plyr', 0.8, {
-            width: '60%',
-            ease: Expo.easeInOut
-          });
-          // document.getElementById('page-content').classList.add('popup')
-        }, 3000);
-
-      }
 
       if (App.introPlayers && App.introPlayers.length > 1) {
 
@@ -178,8 +278,10 @@ const App = {
             event.target.style.display = 'none';
 
             next.elements.wrapper.parentNode.style.display = 'block';
-            document.body.setAttribute('logo-color', next.media.getAttribute('logo-color'))
             next.play();
+          });
+          current.on('playing', event => {
+            document.body.setAttribute('logo-color', next.media.getAttribute('logo-color'))
           });
         }
 
@@ -215,9 +317,31 @@ const App = {
         attachStream(videoElement);
       }
     },
+    play: container => {
+      const videos = container.querySelectorAll('video')
+      if (videos.length > 0) {
+
+        for (var i = 0; i < App.introPlayers.length; i++) {
+          App.introPlayers[i].elements.wrapper.parentNode.style.display = i == 0 ? 'block' : 'none'
+        }
+
+        for (var j = 0; j < videos.length; j++) {
+          videos[j].currentTime = 0;
+        }
+        videos[0].play()
+
+      }
+    },
     pause: () => {
       for (var i = 0; i < App.players.length; i++) {
         App.players[i].pause();
+      }
+    },
+    stop: () => {
+      const videos = container.querySelectorAll('video')
+      for (var i = 0; i < videos.length; i++) {
+        videos[i].pause();
+        videos[i].currentTime = 0;
       }
     },
     destroy: () => {
@@ -335,7 +459,7 @@ const App = {
               caption.innerHTML = this.selectedElement.getAttribute("data-caption");
 
             if (slider.isEntries) {
-              const description = document.querySelector('.dynamic-description');
+              const description = this.element.parentNode.querySelector('.dynamic-description');
               if (description) {
                 description.innerHTML = this.selectedElement.getAttribute("data-caption");
                 document.getElementById('page-description').scroll(0, 0);
@@ -391,7 +515,7 @@ const App = {
             cellSelector: '.slide',
             imagesLoaded: true,
             lazyLoad: 3,
-            hash: true,
+            hash: false,
             cellAlign: elements[i].getAttribute('cell-align'),
             setGallerySize: false,
             adaptiveHeight: false,

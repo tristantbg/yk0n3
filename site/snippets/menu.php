@@ -21,7 +21,7 @@ $items = $pages->visible();
   	<?php $idx = 1 ?>
     <?php foreach($items as $key => $item): ?>
     	<?php if (!$item->isHomepage()): ?>
-    		<li><a<?php e($item->isOpen(), ' class="active"') ?> href="<?= $item->url() ?>" page-id="<?= $idx ?>"><?= $item->title()->html() ?></a></li>
+    		<li><a data-menuanchor="<?= $item->uid() ?>"<?php e($item->isOpen(), ' class="active"') ?> href="<?= $item->url() ?>" page-id="<?= $idx ?>"><?= $item->title()->html() ?></a></li>
     	   <?php $idx++ ?>
       <?php else: ?>
         <li class="disabled"><a<?php e($item->isOpen(), ' class="active"') ?> href="<?= $item->url() ?>" page-id="0"><?= $item->title()->html() ?></a></li>

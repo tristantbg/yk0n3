@@ -1,10 +1,7 @@
-<?php snippet('re-route') ?>
 
-<?php snippet('header') ?>
+<div id="intro-videos">
 
-<div id="manifesto">
-
-  <?php foreach ($page->pagevideo()->toStructure() as $key => $v): ?>
+  <?php foreach ($data->pagevideos()->toStructure() as $key => $v): ?>
 
       <?php
 
@@ -18,15 +15,13 @@
           $v->webm()->isNotEmpty()) {
 
           $video = brick('video')
-                ->attr('class', 'media intro-video contain')
+                ->attr('class', 'media intro-video')
                 ->attr('poster', $poster)
                 ->attr('logo-color', $v->color())
                 ->attr('width', '100%')
                 ->attr('height', 'auto')
-                ->attr('muted', 'true')
-                ->attr('autoplay', 'true')
-                ->attr('playsinline', 'true')
-                ->attr('loop', 'true')
+                ->attr('muted', '')
+                ->attr('playsinline', '')
                 ->attr('preload', 'auto');
 
           if ($v->stream()->isNotEmpty()) $video->attr('data-stream', $v->stream());
@@ -48,11 +43,11 @@
 
   <?php endforeach ?>
 
-  <div id="page-description" class="hide fixed">
-    <h1><?= $page->title()->html() ?></h1>
-    <div><?= $page->text()->kt() ?></div>
-  </div>
-
 </div>
 
-<?php snippet('footer') ?>
+<div id="intro-text">
+  <div id="title-1"><?= $data->title1()->html() ?></div>
+  <div id="title-2" class="bold"><?= $data->title2()->html() ?></div>
+  <div id="title-3"><?= $data->title3()->html() ?></div>
+  <div id="title-4" class="bold"><?= $data->title4()->html() ?></div>
+</div>

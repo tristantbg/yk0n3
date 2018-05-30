@@ -61,7 +61,11 @@ const config = {
         }
       }
     }),
-    new ModernizrWebpackPlugin(modernizrConfig)
+    new ModernizrWebpackPlugin(modernizrConfig),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    })
   ],
   module: {
     rules: [

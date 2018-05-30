@@ -1,3 +1,5 @@
+<?php snippet('re-route') ?>
+
 <?php snippet('header') ?>
 
 <?php snippet('slider', array('medias' => $page->medias()->toStructure())) ?>

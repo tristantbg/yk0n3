@@ -1,9 +1,5 @@
-<?php snippet('re-route') ?>
-
-<?php snippet('header') ?>
-
 <div id="projects">
-	<?php foreach ($projects as $key => $project): ?>
+	<?php foreach ($data->children()->visible() as $key => $project): ?>
 
 		<?php if(true || $project->featured()->isNotEmpty()): ?>
 
@@ -15,5 +11,3 @@
 
 	<?php endforeach ?>
 </div>
-
-<?php snippet('footer') ?>

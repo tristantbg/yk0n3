@@ -1,11 +1,18 @@
 #logo
   hideselect()
-  visibility hidden
-  width 13rem
+  width 9rem
   position fixed
-  top ($padding+1.5)
-  right ($padding*5+1)
+  top ($padding)
+  left ($padding)
   z-index 302
+  transition opacity 300ms ease, visibility 300ms ease
+  +below($md)
+    visibility hidden
+    opacity 0
+    width 12rem
+    top ($padding+1.5)
+    left initial
+    right ($padding*5+1)
   svg
     display block
     width 100%
@@ -27,4 +34,5 @@
 
 [page-type=home]
   #logo
+    opacity 1
     visibility visible

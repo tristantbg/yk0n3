@@ -39,6 +39,7 @@ title()
 	padding-bottom 0.1em
 	text-transform uppercase
 	bold()
+	line-height 1.7
 	&:not(:last-child)
 		margin-bottom 1em
 		// &+ *
@@ -111,6 +112,10 @@ a, a:hover, a:visited, a:focus
 		height 100%
 		position relative
 		min-height 100vh
+
+#mobile-home
+	+above($md + 1)
+		display none
 
 body.is-loading
 	cursor wait

@@ -58,6 +58,7 @@ const App = {
           scrollOverflowReset: false,
           slideSelector: false,
           continuousVertical: true,
+          touchSensitivity: 15,
           // afterLoad: function(anchorLink, index) {
           //   var loadedSection = $(this);
           // },

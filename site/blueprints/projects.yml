@@ -8,14 +8,14 @@ fields:
   title:
     label: Title
     type:  text
-  sortable:
-    label: Sortable
-    type:  sortable
-    sortable: true
-    layout:  base
-    variant: null
-    limit: false
-    parent: null
-    prefix: null
-    options:
-      limit: false
+  # sortable:
+  #   label: Sortable
+  #   type:  sortable
+  #   sortable: true
+  #   layout:  base
+  #   variant: null
+  #   limit: false
+  #   parent: null
+  #   prefix: null
+  #   options:
+  #     limit: false

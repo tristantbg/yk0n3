@@ -3,8 +3,8 @@
 import lazysizes from 'lazysizes';
 import optimumx from 'lazysizes';
 require('../../../node_modules/lazysizes/plugins/object-fit/ls.object-fit.js');
-import Flickity from 'flickity';
-import 'flickity-hash';
+// import Flickity from 'flickity';
+import Flickity from 'flickity-hash';
 import {
   TweenMax
 } from 'gsap';
@@ -13,7 +13,7 @@ import Barba from 'barba.js';
 import Hls from 'hls.js';
 import './iscroll'
 // require('../../../node_modules/fullPage.js/vendors/scrolloverflow.min.js');
-import fullpage from 'fullPage.js';
+import fullpage from 'fullpage.js';
 require('viewport-units-buggyfill').init();
 // import throttle from 'lodash.throttle';
 // import debounce from 'lodash.debounce';
@@ -47,6 +47,7 @@ const App = {
       // App.pjax();
       $('#mobile-home').remove()
       if (document.getElementById('fullpage')) {
+        App.fullpage = true;
         const anchors = document.querySelectorAll('[data-menuanchor]')
         for (var i = 0; i < anchors.length; i++) {
           anchors[i].setAttribute('href', '#' + anchors[i].dataset.menuanchor)
@@ -147,6 +148,7 @@ const App = {
       }
       // App.mouseWheel();
     } else {
+      App.fullpage = false;
       $('#fullpage').remove()
       new TimelineLite({
         onComplete: () => {
@@ -420,13 +422,13 @@ const App = {
           xPercent: 0,
           force3D: true,
           ease: Power3.easeInOut
-        }).to('#logo', 0.3, {
+        }).to('#logo', 0.1, {
           autoAlpha: 1
         });
       },
       off: () => {
         stopBodyScrolling(false);
-        new TimelineLite().to('#logo', 0.3, {
+        new TimelineLite().to('#logo', 0.1, {
           autoAlpha: 0
         }).fromTo("#secondary-menu", 0.5, {
           xPercent: 0,
@@ -516,7 +518,7 @@ const App = {
             cellSelector: '.slide',
             imagesLoaded: true,
             lazyLoad: 3,
-            hash: false,
+            hash: !App.fullpage,
             cellAlign: elements[i].getAttribute('cell-align'),
             setGallerySize: false,
             adaptiveHeight: false,

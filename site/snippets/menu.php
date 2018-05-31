@@ -9,6 +9,10 @@ $items = $pages->visible();
   <?php snippet('logo') ?>
 </div>
 
+<div id="logo-desktop">
+  <?php snippet('logo') ?>
+</div>
+
 <div id="burger">
 	<span></span>
 	<span></span>

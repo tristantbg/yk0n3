@@ -1,18 +1,28 @@
 #logo
   hideselect()
+  visibility hidden
+  opacity 0
+  width 13rem
+  position fixed
+  top ($padding+1.5)
+  right ($padding*5+1)
+  z-index 302
+  svg
+    display block
+    width 100%
+    path
+      transition fill $colorTransition ease
+      fill $secondary
+
+#logo-desktop
+  hideselect()
   width 9rem
   position fixed
   top ($padding)
   left ($padding)
   z-index 302
-  transition opacity 300ms ease, visibility 300ms ease
   +below($md)
-    visibility hidden
-    opacity 0
-    width 12rem
-    top ($padding+1.5)
-    left initial
-    right ($padding*5+1)
+    display none
   svg
     display block
     width 100%
@@ -21,18 +31,19 @@
       fill $secondary
 
 [logo-color=dark]
-  #logo
+  #logo, #logo-desktop
     svg
       path
         fill $secondary
 
 [logo-color=light]
-  #logo
+  #logo, #logo-desktop
     svg
       path
         fill $primary
 
 [page-type=home]
   #logo
-    opacity 1
-    visibility visible
+    +below($md)
+      opacity 1
+      visibility visible

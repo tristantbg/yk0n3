@@ -3,13 +3,14 @@
 	display flex
 	flex-wrap wrap
 	justify-content space-between
-	margin-bottom 50vh
 	&::after
 		display none
 	+below($md)
 		width 100%
 		margin 0
 		padding 0 $padding
+	+above($md + 1)
+		margin-bottom 33vh
 	.project-item
 		background alpha($secondary, 0.1)
 		width 'calc((100% - %s) / 3)' % ($padding*2)

@@ -31,13 +31,13 @@ $items = $pages->visible();
         <li class="disabled"><a<?php e($item->isOpen(), ' class="active"') ?> href="<?= $item->url() ?>" page-id="0"><?= $item->title()->html() ?></a></li>
       <?php endif ?>
     <?php endforeach ?>
-    <!-- <div id="languages">
+    <div id="languages">
       <?php foreach($site->languages() as $language): ?>
           <a<?php e($site->language() == $language, ' class="bold"') ?> href="<?= $page->url($language->code()) ?>">
             <?= html($language->code()) ?>
           </a>
       <?php endforeach ?>
-    </div> -->
+    </div>
   </ul>
 </nav>
 

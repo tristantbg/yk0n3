@@ -254,21 +254,35 @@ const App = {
     init: () => {
 
       const introVideos = document.getElementsByClassName('intro-video');
+      const manifestoVideos = document.getElementsByClassName('manifesto-video');
       const manifesto = document.getElementById('manifesto');
-      const options = {
-        controls: [''],
-        clickToPlay: false,
-        muted: true,
-        iconUrl: _root + "/assets/images/plyr.svg"
-      };
+
 
       if (introVideos.length > 0) {
         App.videoPlayers.prepare(introVideos);
 
+        const options = {
+          controls: [''],
+          clickToPlay: false,
+          muted: true,
+          iconUrl: _root + "/assets/images/plyr.svg"
+        };
         App.introPlayers = Array.from(document.querySelectorAll('.intro-video')).map(player => new Plyr(player, options));
       }
 
-      App.manifesto = Array.from(document.querySelectorAll('.manifesto-video')).map(player => new Plyr(player, options));
+      if (manifestoVideos.length > 0) {
+        App.videoPlayers.prepare(manifestoVideos);
+
+        const options = {
+          controls: [''],
+          clickToPlay: false,
+          muted: true,
+          iconUrl: _root + "/assets/images/plyr.svg"
+        };
+        App.manifesto = Array.from(document.querySelectorAll('.manifesto-video')).map(player => new Plyr(player, options));
+      }
+
+
 
       if (App.introPlayers && App.introPlayers.length > 1) {
 
@@ -288,11 +302,16 @@ const App = {
 
       }
 
-      if (App.manifesto && App.manifesto.length > 1) {
+      // if (App.manifesto && App.manifesto.length > 1) {
 
-        App.manifesto[0].play();
+      //   for (var i = 0; i < App.manifesto.length; i++) {
+      //     const current = App.manifesto[i];
+      //     current.on('ready', event => {
+      //       current.play();
+      //     });
+      //   }
 
-      }
+      // }
 
       // const options = {
       //   controls: ['play-large'],

@@ -24,7 +24,7 @@
                 ->attr('width', '100%')
                 ->attr('height', 'auto')
                 ->attr('muted', 'true')
-                // ->attr('autoplay', 'true')
+                ->attr('autoplay', 'true')
                 ->attr('playsinline', 'true')
                 ->attr('loop', 'true')
                 ->attr('preload', 'auto');

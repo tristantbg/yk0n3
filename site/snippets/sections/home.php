@@ -20,8 +20,8 @@
                 ->attr('logo-color', $v->color())
                 ->attr('width', '100%')
                 ->attr('height', 'auto')
-                ->attr('muted', '')
-                ->attr('playsinline', '')
+                ->attr('muted', 'true')
+                ->attr('playsinline', 'true')
                 ->attr('preload', 'auto');
 
           if ($v->stream()->isNotEmpty()) $video->attr('data-stream', $v->stream());

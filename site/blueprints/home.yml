@@ -1,6 +1,6 @@
 title: Manifesto
 pages: false
-files: false
+files: true
 fields:
   tabs1:
     label: Videos

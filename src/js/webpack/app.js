@@ -290,6 +290,17 @@ const App = {
 
       }
 
+      if (App.manifesto && App.manifesto.length > 1) {
+
+        for (var i = 0; i < App.manifesto.length; i++) {
+          const current = App.manifesto[i];
+          current.on('canplay', event => {
+            current.play();
+          });
+        }
+
+      }
+
       // const options = {
       //   controls: ['play-large'],
       //   clickToPlay: false,

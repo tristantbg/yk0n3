@@ -46,7 +46,7 @@ $items = $pages->visible();
   <ul>
     <?php foreach($items as $item): ?>
     	<?php if (!$item->isHomepage()): ?>
-    		<li><a<?php e($item->isOpen(), ' class="active"') ?> href="<?= $item->url() ?>"><?= $item->title()->html() ?></a></li>
+    		<li><a data-menuanchor="<?= $item->uid() ?>"<?php e($item->isOpen(), ' class="active"') ?> href="<?= $item->url() ?>"><?= $item->title()->html() ?></a></li>
     	<?php endif ?>
     <?php endforeach ?>
     <div id="languages">

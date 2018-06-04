@@ -254,6 +254,7 @@ const App = {
     init: () => {
 
       const introVideos = document.getElementsByClassName('intro-video');
+      const manifestoVideos = document.getElementsByClassName('manifesto-video');
       const manifesto = document.getElementById('manifesto');
 
 
@@ -267,6 +268,17 @@ const App = {
           iconUrl: _root + "/assets/images/plyr.svg"
         };
         App.introPlayers = Array.from(document.querySelectorAll('.intro-video')).map(player => new Plyr(player, options));
+      }
+
+      if (manifestoVideos.length > 0) {
+        App.videoPlayers.prepare(manifestoVideos);
+
+        const options = {
+          controls: [''],
+          clickToPlay: false,
+          muted: true,
+          iconUrl: _root + "/assets/images/plyr.svg"
+        };
         App.manifesto = Array.from(document.querySelectorAll('.manifesto-video')).map(player => new Plyr(player, options));
       }
 
@@ -290,16 +302,16 @@ const App = {
 
       }
 
-      if (App.manifesto && App.manifesto.length > 1) {
+      // if (App.manifesto && App.manifesto.length > 1) {
 
-        for (var i = 0; i < App.manifesto.length; i++) {
-          const current = App.manifesto[i];
-          current.on('canplay', event => {
-            current.play();
-          });
-        }
+      //   for (var i = 0; i < App.manifesto.length; i++) {
+      //     const current = App.manifesto[i];
+      //     current.on('ready', event => {
+      //       current.play();
+      //     });
+      //   }
 
-      }
+      // }
 
       // const options = {
       //   controls: ['play-large'],

@@ -255,17 +255,16 @@ const App = {
 
       const introVideos = document.getElementsByClassName('intro-video');
       const manifesto = document.getElementById('manifesto');
-
+      const options = {
+        controls: [''],
+        clickToPlay: false,
+        muted: true,
+        iconUrl: _root + "/assets/images/plyr.svg"
+      };
 
       if (introVideos.length > 0) {
         App.videoPlayers.prepare(introVideos);
 
-        const options = {
-          controls: [''],
-          clickToPlay: false,
-          muted: true,
-          iconUrl: _root + "/assets/images/plyr.svg"
-        };
         App.introPlayers = Array.from(document.querySelectorAll('.intro-video')).map(player => new Plyr(player, options));
       }
 

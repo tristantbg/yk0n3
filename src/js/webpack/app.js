@@ -267,8 +267,9 @@ const App = {
           iconUrl: _root + "/assets/images/plyr.svg"
         };
         App.introPlayers = Array.from(document.querySelectorAll('.intro-video')).map(player => new Plyr(player, options));
-        App.manifesto = Array.from(document.querySelectorAll('.manifesto-video')).map(player => new Plyr(player, options));
       }
+
+      App.manifesto = Array.from(document.querySelectorAll('.manifesto-video')).map(player => new Plyr(player, options));
 
 
 

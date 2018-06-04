@@ -18,13 +18,13 @@
           $v->webm()->isNotEmpty()) {
 
           $video = brick('video')
-                ->attr('class', 'media intro-video contain')
+                ->attr('class', 'media manifesto-video contain')
                 ->attr('poster', $poster)
                 ->attr('logo-color', $v->color())
                 ->attr('width', '100%')
                 ->attr('height', 'auto')
                 ->attr('muted', 'true')
-                ->attr('autoplay', 'true')
+                // ->attr('autoplay', 'true')
                 ->attr('playsinline', 'true')
                 ->attr('loop', 'true')
                 ->attr('preload', 'auto');

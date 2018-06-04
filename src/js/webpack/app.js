@@ -270,8 +270,6 @@ const App = {
 
       App.manifesto = Array.from(document.querySelectorAll('.manifesto-video')).map(player => new Plyr(player, options));
 
-
-
       if (App.introPlayers && App.introPlayers.length > 1) {
 
         for (var i = 0; i < App.introPlayers.length; i++) {
@@ -292,12 +290,7 @@ const App = {
 
       if (App.manifesto && App.manifesto.length > 1) {
 
-        for (var i = 0; i < App.manifesto.length; i++) {
-          const current = App.manifesto[i];
-          current.on('canplay', event => {
-            current.play();
-          });
-        }
+        App.manifesto[0].play();
 
       }
 
